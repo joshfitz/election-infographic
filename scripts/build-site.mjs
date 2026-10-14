@@ -13,7 +13,7 @@ await mkdir(downloadsDir, { recursive: true });
 
 await cp(siteDir, distDir, { recursive: true });
 
-for (const requiredFile of ["index.html", "site.css", "favicon.ico", "robots.txt"]) {
+for (const requiredFile of ["index.html", "site.css", "favicon.ico", "robots.txt", "sitemap.xml"]) {
   const details = await stat(path.join(distDir, requiredFile));
   if (!details.isFile() || details.size === 0) {
     throw new Error(`Required site file is missing or empty: ${requiredFile}`);

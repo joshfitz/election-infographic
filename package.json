@@ -10,6 +10,7 @@
     "build": "npm run assets && npm run export && npm run site:build",
     "site:build": "node scripts/build-site.mjs",
     "site:qa": "node scripts/qa-site.mjs",
+    "site:indexnow": "node scripts/submit-indexnow.mjs",
     "site:preview": "node scripts/serve-site.mjs"
   },
   "devDependencies": {

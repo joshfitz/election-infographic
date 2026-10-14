@@ -11,6 +11,8 @@ const pageUrl = pathToFileURL(path.join(distDir, "index.html")).href;
 const sourcesUrl = pathToFileURL(path.join(distDir, "sources", "index.html")).href;
 const faviconPath = path.join(distDir, "favicon.ico");
 const robotsPath = path.join(distDir, "robots.txt");
+const sitemapPath = path.join(distDir, "sitemap.xml");
+const indexNowKeyPath = path.join(distDir, "ab94791e46ad59935cdbce15e36b9e61.txt");
 const browserCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -24,6 +26,21 @@ if (!existsSync(faviconPath) || statSync(faviconPath).size === 0) {
 }
 if (!existsSync(robotsPath) || !readFileSync(robotsPath, "utf8").includes("Allow: /")) {
   throw new Error("dist/robots.txt is missing or does not allow crawling.");
+}
+if (!readFileSync(robotsPath, "utf8").includes("Sitemap: https://issue8and9.org/sitemap.xml")) {
+  throw new Error("dist/robots.txt does not advertise the canonical sitemap URL.");
+}
+if (!existsSync(sitemapPath)) {
+  throw new Error("dist/sitemap.xml is missing.");
+}
+const sitemap = readFileSync(sitemapPath, "utf8");
+for (const url of ["https://issue8and9.org/", "https://issue8and9.org/sources/"]) {
+  if (!sitemap.includes(`<loc>${url}</loc>`)) {
+    throw new Error(`dist/sitemap.xml is missing ${url}.`);
+  }
+}
+if (!existsSync(indexNowKeyPath) || readFileSync(indexNowKeyPath, "utf8").trim() !== "ab94791e46ad59935cdbce15e36b9e61") {
+  throw new Error("The IndexNow ownership key is missing or invalid.");
 }
 
 await rm(qaDir, { recursive: true, force: true });
@@ -60,6 +77,9 @@ async function checkPage(name, viewport) {
     faqSchemaItems: JSON.parse(document.querySelector('script[type="application/ld+json"]')?.textContent || "{}").mainEntity?.length,
     faviconHref: document.querySelector('link[rel="icon"]')?.getAttribute("href"),
     canonicalHref: document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
+    title: document.title,
+    metaDescription: document.querySelector('meta[name="description"]')?.getAttribute("content"),
+    schemaDateModified: JSON.parse(document.querySelector('script[type="application/ld+json"]')?.textContent || "{}").dateModified,
   }));
 
   const expectedFormat = viewport.width <= 720 ? "mobile" : "letter";
@@ -82,7 +102,10 @@ async function checkPage(name, viewport) {
     checks.faqSourceLinks !== 3 ||
     checks.faqSchemaItems !== 5 ||
     checks.faviconHref !== "favicon.ico" ||
-    checks.canonicalHref !== "https://issue8and9.org/"
+    checks.canonicalHref !== "https://issue8and9.org/" ||
+    !checks.title.includes("(2026)") ||
+    !checks.metaDescription.includes("November 3, 2026") ||
+    checks.schemaDateModified !== "2026-10-14"
   ) {
     throw new Error(`${name} failed: ${JSON.stringify(checks)}`);
   }
@@ -104,6 +127,11 @@ async function checkSourcesPage(name, viewport) {
     externalSources: document.querySelectorAll('a[href^="https://"]').length,
     rawMarkdownLinks: document.querySelectorAll('a[href$=".md"]').length,
     hasQualifications: Boolean(document.querySelector(".qualifications")),
+    robotsMeta: document.querySelector('meta[name="robots"]')?.getAttribute("content"),
+    canonicalHref: document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
+    title: document.title,
+    schemaType: JSON.parse(document.querySelector('script[type="application/ld+json"]')?.textContent || "{}")["@type"],
+    schemaDateModified: JSON.parse(document.querySelector('script[type="application/ld+json"]')?.textContent || "{}").dateModified,
   }));
 
   if (
@@ -111,7 +139,12 @@ async function checkSourcesPage(name, viewport) {
     checks.sectionCount !== 5 ||
     checks.externalSources !== 5 ||
     checks.rawMarkdownLinks !== 0 ||
-    !checks.hasQualifications
+    !checks.hasQualifications ||
+    checks.robotsMeta !== "index, follow" ||
+    checks.canonicalHref !== "https://issue8and9.org/sources/" ||
+    !checks.title.includes("(2026)") ||
+    checks.schemaType !== "WebPage" ||
+    checks.schemaDateModified !== "2026-10-14"
   ) {
     throw new Error(`${name} failed: ${JSON.stringify(checks)}`);
   }

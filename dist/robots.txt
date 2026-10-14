@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://issue8and9.org/sitemap.xml
