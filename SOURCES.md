@@ -36,6 +36,11 @@ Accessed October 14, 2026. These notes document the factual basis for the infogr
   - District-member recalls are district-based; at-large member recalls are citywide.
   - Quorum and legislative vote thresholds increase as council expands.
 
+### Columbus City Council - Ordinance 2355-2026
+
+- Official legislation: https://columbus.legistar.com/LegislationDetail.aspx?GUID=6DF289EC-5801-4540-A61F-813070B1368A&ID=8186049&Options=&Search=
+- Used for the landing-page FAQ explanation that Issue 9 enacts the district-election provisions of Issue 8 and complements them with at-large representation and other changes.
+
 ## Official current-system source
 
 - City page: https://www.columbus.gov/Government/City-Council/Council-Residential-Districts

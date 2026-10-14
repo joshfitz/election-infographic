@@ -292,6 +292,7 @@ h1 span { color: var(--red); }
 
 .guide-section,
 .text-summary-section,
+.faq-section,
 .downloads-section,
 .sources-section { padding: 92px 0; }
 
@@ -395,6 +396,58 @@ h2 {
   white-space: nowrap;
   border: 0;
 }
+
+.faq-section { background: var(--white); }
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.58fr) minmax(0, 1.42fr);
+  gap: 72px;
+  align-items: start;
+}
+
+.faq-intro > p:last-child {
+  max-width: 390px;
+  margin: 22px 0 0;
+  color: var(--gray-600);
+  font-size: 1.05rem;
+}
+
+.faq-list { border-top: 5px solid var(--blue); }
+
+.faq-item {
+  padding: 27px 0 29px;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.faq-item h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1.3rem;
+  line-height: 1.25;
+}
+
+.faq-item p {
+  max-width: 790px;
+  margin: 11px 0 0;
+  color: var(--gray-600);
+  font-size: 1rem;
+}
+
+.faq-item strong { color: var(--navy); }
+
+.faq-sources {
+  margin: 28px 0 0;
+  padding: 18px 20px;
+  border-left: 5px solid var(--red);
+  color: var(--gray-600);
+  background: var(--red-soft);
+  font-size: 0.88rem;
+}
+
+.faq-sources strong { color: var(--navy); }
+.faq-sources a { color: var(--blue-dark); font-weight: 750; text-underline-offset: 3px; }
+.faq-sources span { margin-inline: 5px; }
 
 .downloads-section { background: var(--blue-soft); }
 
@@ -513,7 +566,8 @@ dd { margin: 3px 0 0; font-weight: 750; }
 @media (max-width: 900px) {
   .hero-grid,
   .sources-grid,
-  .text-summary-grid { grid-template-columns: 1fr; gap: 48px; }
+  .text-summary-grid,
+  .faq-layout { grid-template-columns: 1fr; gap: 48px; }
   .download-grid { grid-template-columns: 1fr; }
   .download-card { min-height: 0; }
   .download-card dl { margin-top: 24px; }
@@ -538,6 +592,7 @@ dd { margin: 3px 0 0; font-weight: 750; }
   .quick-row b { font-size: 0.9rem; }
   .guide-section,
   .text-summary-section,
+  .faq-section,
   .downloads-section,
   .sources-section { padding: 66px 0; }
   .guide-preview { padding: 10px; }
@@ -550,6 +605,12 @@ dd { margin: 3px 0 0; font-weight: 750; }
   .outcome-table td:first-child,
   .outcome-table td:nth-child(2) { width: 54px; }
   .summary-note { margin-inline: 8px; }
+  .faq-layout { gap: 34px; }
+  .faq-item { padding: 23px 0 25px; }
+  .faq-item h3 { font-size: 1.18rem; }
+  .faq-sources { padding: 16px; }
+  .faq-sources span { display: none; }
+  .faq-sources a { display: block; margin-top: 8px; }
   .source-actions { align-items: stretch; flex-direction: column; }
   .source-list { padding: 24px 22px; }
   .footer-inner { padding: 34px 0; align-items: start; flex-direction: column; }

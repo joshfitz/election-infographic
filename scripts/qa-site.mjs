@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { mkdir, rm } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -9,6 +9,8 @@ const distDir = path.join(root, "dist");
 const qaDir = path.join(root, "tmp", "site-qa");
 const pageUrl = pathToFileURL(path.join(distDir, "index.html")).href;
 const sourcesUrl = pathToFileURL(path.join(distDir, "sources", "index.html")).href;
+const faviconPath = path.join(distDir, "favicon.ico");
+const robotsPath = path.join(distDir, "robots.txt");
 const browserCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -16,6 +18,13 @@ const browserCandidates = [
   "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
 ].filter(Boolean);
 const browserExecutable = browserCandidates.find((candidate) => existsSync(candidate));
+
+if (!existsSync(faviconPath) || statSync(faviconPath).size === 0) {
+  throw new Error("dist/favicon.ico is missing or empty.");
+}
+if (!existsSync(robotsPath) || !readFileSync(robotsPath, "utf8").includes("Allow: /")) {
+  throw new Error("dist/robots.txt is missing or does not allow crawling.");
+}
 
 await rm(qaDir, { recursive: true, force: true });
 await mkdir(qaDir, { recursive: true });
@@ -46,6 +55,11 @@ async function checkPage(name, viewport) {
     previewHref: document.querySelector("#preview-link")?.getAttribute("href"),
     textSummaryRows: document.querySelectorAll(".outcome-table tbody tr").length,
     textSummaryHasPhaseIn: document.querySelector(".summary-note")?.textContent.includes("elected in 2027") && document.querySelector(".summary-note")?.textContent.includes("2029 elections"),
+    faqItems: document.querySelectorAll(".faq-item").length,
+    faqSourceLinks: document.querySelectorAll(".faq-sources a").length,
+    faqSchemaItems: JSON.parse(document.querySelector('script[type="application/ld+json"]')?.textContent || "{}").mainEntity?.length,
+    faviconHref: document.querySelector('link[rel="icon"]')?.getAttribute("href"),
+    canonicalHref: document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
   }));
 
   const expectedFormat = viewport.width <= 720 ? "mobile" : "letter";
@@ -63,7 +77,12 @@ async function checkPage(name, viewport) {
     checks.primaryHref !== expectedAsset ||
     checks.previewHref !== expectedAsset ||
     checks.textSummaryRows !== 4 ||
-    !checks.textSummaryHasPhaseIn
+    !checks.textSummaryHasPhaseIn ||
+    checks.faqItems !== 5 ||
+    checks.faqSourceLinks !== 3 ||
+    checks.faqSchemaItems !== 5 ||
+    checks.faviconHref !== "favicon.ico" ||
+    checks.canonicalHref !== "https://issue8and9.org/"
   ) {
     throw new Error(`${name} failed: ${JSON.stringify(checks)}`);
   }

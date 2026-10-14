@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -12,6 +12,13 @@ await rm(distDir, { recursive: true, force: true });
 await mkdir(downloadsDir, { recursive: true });
 
 await cp(siteDir, distDir, { recursive: true });
+
+for (const requiredFile of ["index.html", "site.css", "favicon.ico", "robots.txt"]) {
+  const details = await stat(path.join(distDir, requiredFile));
+  if (!details.isFile() || details.size === 0) {
+    throw new Error(`Required site file is missing or empty: ${requiredFile}`);
+  }
+}
 
 const artifacts = [
   [path.join(outputDir, "columbus-issues-8-9-letter.png"), "columbus-issues-8-9-letter.png"],
