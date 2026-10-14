@@ -500,3 +500,112 @@ dd { margin: 3px 0 0; font-weight: 750; }
   html { scroll-behavior: auto; }
   .button { transition: none; }
 }
+
+/* Sources page */
+.facts-main {
+  width: min(900px, calc(100% - 40px));
+  margin-inline: auto;
+  padding: 72px 0 88px;
+}
+
+.facts-intro {
+  padding-bottom: 36px;
+  border-bottom: 4px solid var(--blue);
+}
+
+.facts-intro h1 {
+  max-width: none;
+  margin: 10px 0 18px;
+  font-size: clamp(2.7rem, 7vw, 4.8rem);
+}
+
+.facts-intro > p:last-child {
+  max-width: 720px;
+  margin-bottom: 0;
+  color: var(--gray-600);
+  font-size: 1.08rem;
+}
+
+.fact-section {
+  padding: 42px 0;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.fact-section h2 {
+  margin: 0 0 24px;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.fact-section h3 {
+  margin: 7px 0 8px;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.fact-section > p {
+  max-width: 780px;
+  color: #294b67;
+}
+
+.fact-section a {
+  color: var(--blue-dark);
+  font-weight: 800;
+  text-underline-offset: 4px;
+}
+
+.document-list,
+.facts-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.document-list article,
+.facts-grid article {
+  padding: 24px;
+  border: 1px solid var(--gray-300);
+  border-left: 5px solid var(--blue);
+  background: var(--white);
+}
+
+.document-list article > p:not(.document-type) {
+  margin-bottom: 12px;
+  color: var(--gray-600);
+}
+
+.document-type {
+  margin: 0;
+  color: var(--blue-dark);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.facts-grid { grid-template-columns: 1fr 1fr; }
+
+.fact-section ul {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 0;
+  padding-left: 21px;
+}
+
+.qualifications {
+  margin-top: 12px;
+  padding: 34px;
+  border: 1px solid #e5a9b4;
+  border-left: 5px solid var(--red);
+  background: var(--red-soft);
+}
+
+.qualifications h2 { margin-bottom: 18px; }
+
+.facts-return { padding-top: 40px; }
+
+@media (max-width: 680px) {
+  .facts-main { width: min(100% - 28px, 900px); padding: 50px 0 64px; }
+  .facts-grid { grid-template-columns: 1fr; }
+  .fact-section { padding: 34px 0; }
+  .document-list article,
+  .facts-grid article { padding: 20px; }
+  .qualifications { padding: 24px 20px; }
+}

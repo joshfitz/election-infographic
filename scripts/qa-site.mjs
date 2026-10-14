@@ -8,6 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(root, "dist");
 const qaDir = path.join(root, "tmp", "site-qa");
 const pageUrl = pathToFileURL(path.join(distDir, "index.html")).href;
+const sourcesUrl = pathToFileURL(path.join(distDir, "sources", "index.html")).href;
 const browserCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -68,9 +69,40 @@ async function checkPage(name, viewport) {
   console.log(`${name}: ${JSON.stringify(checks)}`);
 }
 
+async function checkSourcesPage(name, viewport) {
+  const context = await browser.newContext({ viewport, deviceScaleFactor: 1 });
+  const page = await context.newPage();
+  await page.goto(sourcesUrl, { waitUntil: "load" });
+  await page.evaluate(() => document.fonts.ready);
+
+  const checks = await page.evaluate(() => ({
+    horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+    sectionCount: document.querySelectorAll(".fact-section").length,
+    externalSources: document.querySelectorAll('a[href^="https://"]').length,
+    rawMarkdownLinks: document.querySelectorAll('a[href$=".md"]').length,
+    hasQualifications: Boolean(document.querySelector(".qualifications")),
+  }));
+
+  if (
+    checks.horizontalOverflow ||
+    checks.sectionCount !== 5 ||
+    checks.externalSources !== 5 ||
+    checks.rawMarkdownLinks !== 0 ||
+    !checks.hasQualifications
+  ) {
+    throw new Error(`${name} failed: ${JSON.stringify(checks)}`);
+  }
+
+  await page.screenshot({ path: path.join(qaDir, `${name}.png`), fullPage: true });
+  await context.close();
+  console.log(`${name}: ${JSON.stringify(checks)}`);
+}
+
 try {
   await checkPage("desktop", { width: 1440, height: 1000 });
   await checkPage("mobile", { width: 390, height: 844 });
+  await checkSourcesPage("sources-desktop", { width: 1200, height: 900 });
+  await checkSourcesPage("sources-mobile", { width: 390, height: 844 });
 } finally {
   await browser.close();
 }

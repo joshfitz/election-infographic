@@ -17,7 +17,6 @@ const artifacts = [
   [path.join(outputDir, "columbus-issues-8-9-letter.png"), "columbus-issues-8-9-letter.png"],
   [path.join(outputDir, "columbus-issues-8-9-mobile.png"), "columbus-issues-8-9-mobile.png"],
   [path.join(outputDir, "pdf", "columbus-issues-8-9-print.pdf"), "columbus-issues-8-9-print.pdf"],
-  [path.join(root, "SOURCES.md"), "SOURCES.md"],
 ];
 
 for (const [source, filename] of artifacts) {
