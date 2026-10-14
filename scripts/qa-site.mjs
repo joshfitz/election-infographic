@@ -38,9 +38,28 @@ async function checkPage(name, viewport) {
     brokenAnchors: [...document.querySelectorAll('a[href^="#"]')]
       .map((link) => link.getAttribute("href"))
       .filter((href) => href !== "#" && !document.querySelector(href)),
+    recommendedFormat: document.documentElement.dataset.recommendedFormat,
+    recommendedCards: document.querySelectorAll(".download-card.is-recommended").length,
+    firstDownloadFormat: document.querySelector(".download-card")?.dataset.format,
+    primaryHref: document.querySelector("#recommended-guide-link")?.getAttribute("href"),
+    previewHref: document.querySelector("#preview-link")?.getAttribute("href"),
   }));
 
-  if (checks.horizontalOverflow || !checks.imagesLoaded || checks.downloadCount !== 4 || checks.brokenAnchors.length) {
+  const expectedFormat = viewport.width <= 720 ? "mobile" : "letter";
+  const expectedAsset = expectedFormat === "mobile"
+    ? "downloads/columbus-issues-8-9-mobile.png"
+    : "downloads/columbus-issues-8-9-letter.png";
+  if (
+    checks.horizontalOverflow ||
+    !checks.imagesLoaded ||
+    checks.downloadCount !== 4 ||
+    checks.brokenAnchors.length ||
+    checks.recommendedFormat !== expectedFormat ||
+    checks.recommendedCards !== 1 ||
+    checks.firstDownloadFormat !== expectedFormat ||
+    checks.primaryHref !== expectedAsset ||
+    checks.previewHref !== expectedAsset
+  ) {
     throw new Error(`${name} failed: ${JSON.stringify(checks)}`);
   }
 

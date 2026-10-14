@@ -46,9 +46,14 @@
               This visual guide shows the difference and explains all four ballot combinations.
             </p>
             <div class="hero-actions">
-              <a class="button primary" href="#guide">View the guide</a>
+              <a
+                class="button primary"
+                id="recommended-guide-link"
+                href="downloads/columbus-issues-8-9-letter.png"
+              >Read the full-size guide</a>
               <a class="button secondary" href="downloads/columbus-issues-8-9-print.pdf" download>Download print PDF</a>
             </div>
+            <p class="screen-guidance" id="screen-guidance">Full-size guide selected for this screen.</p>
             <p class="neutrality-note">This guide does not endorse either proposal.</p>
           </div>
 
@@ -83,17 +88,19 @@
           </div>
 
           <figure class="guide-preview">
-            <picture>
-              <source media="(max-width: 720px)" srcset="downloads/columbus-issues-8-9-mobile.png" />
-              <img
-                src="downloads/columbus-issues-8-9-letter.png"
-                alt="Infographic explaining Columbus Ballot Issues 8 and 9, including the proposal comparison and four possible voting outcomes"
-                width="2550"
-                height="3300"
-              />
-            </picture>
+            <a id="preview-link" href="downloads/columbus-issues-8-9-letter.png" aria-label="Open the recommended full-resolution guide">
+              <picture>
+                <source media="(max-width: 720px)" srcset="downloads/columbus-issues-8-9-mobile.png" />
+                <img
+                  src="downloads/columbus-issues-8-9-letter.png"
+                  alt="Infographic explaining Columbus Ballot Issues 8 and 9, including the proposal comparison and four possible voting outcomes"
+                  width="2550"
+                  height="3300"
+                />
+              </picture>
+            </a>
             <figcaption>
-              On smaller screens, this preview automatically uses the mobile edition. Select a format below to save or share the full-resolution file.
+              <span id="preview-caption">The full-size edition is selected for this screen. Select the preview to open it at full resolution.</span>
             </figcaption>
           </figure>
         </div>
@@ -104,12 +111,13 @@
           <div class="section-heading compact">
             <div>
               <p class="eyebrow">CHOOSE THE RIGHT FORMAT</p>
-              <h2 id="downloads-title">Print it, post it, or send it</h2>
+              <h2 id="downloads-title">Best match first. Other formats when you need them.</h2>
             </div>
           </div>
 
-          <div class="download-grid">
-            <article class="download-card">
+          <div class="download-grid" id="download-grid">
+            <article class="download-card" data-format="print">
+              <p class="recommendation" aria-hidden="true">RECOMMENDED FOR THIS SCREEN</p>
               <p class="format">PRINT</p>
               <h3>Print-ready PDF</h3>
               <p>US Letter portrait, prepared for crisp home or professional printing.</p>
@@ -120,7 +128,8 @@
               <a class="button primary" href="downloads/columbus-issues-8-9-print.pdf" download>Download PDF</a>
             </article>
 
-            <article class="download-card">
+            <article class="download-card is-recommended" data-format="letter">
+              <p class="recommendation">RECOMMENDED FOR THIS SCREEN</p>
               <p class="format">DIGITAL</p>
               <h3>Letter-size PNG</h3>
               <p>A high-resolution image for websites, email, newsletters, and digital displays.</p>
@@ -131,7 +140,8 @@
               <a class="button primary" href="downloads/columbus-issues-8-9-letter.png" download>Download letter PNG</a>
             </article>
 
-            <article class="download-card">
+            <article class="download-card" data-format="mobile">
+              <p class="recommendation" aria-hidden="true">RECOMMENDED FOR THIS SCREEN</p>
               <p class="format">MOBILE</p>
               <h3>Phone-friendly PNG</h3>
               <p>A condensed portrait edition sized for phones and social sharing.</p>
@@ -182,5 +192,56 @@
         <a href="#top">Back to top</a>
       </div>
     </footer>
+
+    <script>
+      const mobileViewport = window.matchMedia("(max-width: 720px)");
+      const formats = {
+        letter: {
+          href: "downloads/columbus-issues-8-9-letter.png",
+          action: "Read the full-size guide",
+          guidance: "Full-size guide selected for this screen.",
+          caption: "The full-size edition is selected for this screen. Select the preview to open it at full resolution.",
+          previewLabel: "Open the full-size guide",
+        },
+        mobile: {
+          href: "downloads/columbus-issues-8-9-mobile.png",
+          action: "Read the phone-friendly guide",
+          guidance: "Phone-friendly guide selected for this screen.",
+          caption: "The phone-friendly edition is selected for this screen. Select the preview to open it at full resolution.",
+          previewLabel: "Open the phone-friendly guide",
+        },
+      };
+
+      function applyScreenRecommendation() {
+        const selected = mobileViewport.matches ? "mobile" : "letter";
+        const format = formats[selected];
+        const action = document.querySelector("#recommended-guide-link");
+        const guidance = document.querySelector("#screen-guidance");
+        const preview = document.querySelector("#preview-link");
+        const caption = document.querySelector("#preview-caption");
+        const grid = document.querySelector("#download-grid");
+        const cards = [...grid.querySelectorAll(".download-card")];
+        const recommendedCard = cards.find((card) => card.dataset.format === selected);
+
+        document.documentElement.dataset.recommendedFormat = selected;
+        action.href = format.href;
+        action.textContent = format.action;
+        guidance.textContent = format.guidance;
+        preview.href = format.href;
+        preview.setAttribute("aria-label", format.previewLabel);
+        caption.textContent = format.caption;
+        grid.prepend(recommendedCard);
+
+        for (const card of cards) {
+          const recommended = card === recommendedCard;
+          card.classList.toggle("is-recommended", recommended);
+          const label = card.querySelector(".recommendation");
+          label.setAttribute("aria-hidden", String(!recommended));
+        }
+      }
+
+      applyScreenRecommendation();
+      mobileViewport.addEventListener?.("change", applyScreenRecommendation);
+    </script>
   </body>
 </html>
