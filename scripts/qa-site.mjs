@@ -44,6 +44,8 @@ async function checkPage(name, viewport) {
     firstDownloadFormat: document.querySelector(".download-card")?.dataset.format,
     primaryHref: document.querySelector("#recommended-guide-link")?.getAttribute("href"),
     previewHref: document.querySelector("#preview-link")?.getAttribute("href"),
+    textSummaryRows: document.querySelectorAll(".outcome-table tbody tr").length,
+    textSummaryHasPhaseIn: document.querySelector(".summary-note")?.textContent.includes("elected in 2027") && document.querySelector(".summary-note")?.textContent.includes("2029 elections"),
   }));
 
   const expectedFormat = viewport.width <= 720 ? "mobile" : "letter";
@@ -59,7 +61,9 @@ async function checkPage(name, viewport) {
     checks.recommendedCards !== 1 ||
     checks.firstDownloadFormat !== expectedFormat ||
     checks.primaryHref !== expectedAsset ||
-    checks.previewHref !== expectedAsset
+    checks.previewHref !== expectedAsset ||
+    checks.textSummaryRows !== 4 ||
+    !checks.textSummaryHasPhaseIn
   ) {
     throw new Error(`${name} failed: ${JSON.stringify(checks)}`);
   }

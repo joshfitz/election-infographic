@@ -1,6 +1,6 @@
 # Source notes: Columbus Ballot Issues 8 and 9
 
-Accessed October 13, 2026. These notes document the factual basis for the infographic and are not an endorsement of either proposal.
+Accessed October 14, 2026. These notes document the factual basis for the infographic and are not an endorsement of either proposal.
 
 ## Primary election sources
 
@@ -28,8 +28,9 @@ Accessed October 13, 2026. These notes document the factual basis for the infogr
   - Nine district members are elected only by voters in their respective districts.
   - Two at-large seats begin January 1, 2028, producing an eleven-member council.
   - Two more at-large seats begin January 1, 2030, producing a thirteen-member council.
+  - The first two at-large seats are elected in 2027; the next two are elected in 2029.
   - At-large members are elected by voters citywide and serve the same four-year term as district members.
-  - A districting commission is appointed in 2027, with the adopted map effective for the next municipal primary and general elections.
+  - A districting commission is appointed in 2027, with the adopted map used for the 2029 municipal primary and general elections.
   - The maximum population difference between the largest and smallest district changes from 1% to 7.5%.
   - District-candidate petitions change from 250 to 150 signatures; at-large candidates require 250 citywide signatures.
   - District-member recalls are district-based; at-large member recalls are citywide.
@@ -38,12 +39,12 @@ Accessed October 13, 2026. These notes document the factual basis for the infogr
 ## Official current-system source
 
 - City page: https://www.columbus.gov/Government/City-Council/Council-Residential-Districts
-- Verified current-system description: nine residential districts; members must live in their districts; every city voter may vote in every council race.
+- Verified current-system description: nine residential districts; members must live in their districts; every city voter may vote for all nine seats across staggered elections.
 
 ## Visual design reference
 
 - City website: https://www.columbus.gov/Home
-- Accessed October 13, 2026.
+- Accessed October 14, 2026.
 - The infographic adapts the site's white and light-gray surfaces, primary Columbus blue (`#00539B`), dark navy structure, and restrained red wordmark accent. This is a visual consistency reference, not City sponsorship or endorsement.
 
 ## Independent local reporting
@@ -57,6 +58,7 @@ Accessed October 13, 2026. These notes document the factual basis for the infogr
 ## Editorial corrections and qualifications
 
 - The supplied phrase "phased in through 2030" was accurate but incomplete. The infographic makes the sequence explicit: 11 members in 2028 and 13 in 2030.
+- The earlier infographic said Issue 9 voters would vote in five council races. That phrasing incorrectly suggested simultaneous contests. The revised copy says voters elect their district representative and help elect four citywide representatives across staggered elections; two citywide seats are elected in 2027 and two more in 2029.
 - The supplied copy said Issue 9 redraws district boundaries "in 2028." The certified text more precisely requires the districting commission to be appointed by March 1, 2027 and makes the adopted plan effective for the next succeeding municipal elections; WOSU confirms that the current map remains for the 2027 election. The infographic uses that certified sequence instead of assigning the redraw to a single year.
 - The supplied "Other changes" note associated district recall procedures with Issue 8. The certified Issue 9 text also contains district-based recall provisions and adds citywide recall provisions for at-large members. The infographic therefore labels district-based recall as common to both amendments.
 - "Existing district boundaries remain" under Issue 8 is summarized in the main comparison as no early redistricting. The ordinary post-2030-census process, annexation/detachment adjustments, and court-ordered contingencies are too detailed for the principal graphic.

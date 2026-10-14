@@ -52,6 +52,8 @@ async function assertLayout(page, name) {
       issue9CitywideSeats: document.querySelectorAll(".issue-9 .seats i.citywide").length,
       matrixRows: document.querySelectorAll(".matrix .matrix-row").length,
       sameOutcomeExplained: document.querySelector(".matrix .matrix-row:last-child")?.textContent.includes("No extra structural effect"),
+      phaseInExplained: document.querySelector(".matrix-note")?.textContent.includes("11 beginning in 2028") && document.querySelector(".matrix-note")?.textContent.includes("13 beginning in 2030"),
+      redistrictingExplained: document.querySelector(".issue-9 .proposal-note")?.textContent.includes("New boundaries used in 2029"),
       loadedImages: [...document.images].every((image) => image.complete && image.naturalWidth > 0),
     };
   });
@@ -63,7 +65,9 @@ async function assertLayout(page, name) {
     checks.issue9DistrictSeats !== 9 ||
     checks.issue9CitywideSeats !== 4 ||
     checks.matrixRows !== 4 ||
-    !checks.sameOutcomeExplained
+    !checks.sameOutcomeExplained ||
+    !checks.phaseInExplained ||
+    !checks.redistrictingExplained
   ) {
     throw new Error(`${name} failed content counts: ${JSON.stringify(checks)}`);
   }

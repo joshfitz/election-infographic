@@ -291,6 +291,7 @@ h1 span { color: var(--red); }
 .seat-key .citywide { color: var(--red); background: var(--red-soft); border-radius: 50%; }
 
 .guide-section,
+.text-summary-section,
 .downloads-section,
 .sources-section { padding: 92px 0; }
 
@@ -345,6 +346,54 @@ h2 {
   padding: 18px 6px 1px;
   color: var(--gray-600);
   font-size: 0.9rem;
+}
+
+.text-summary-section {
+  color: var(--white);
+  background: var(--navy-deep);
+}
+
+.text-summary-grid {
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.text-summary-intro .eyebrow { color: #9bc7e7; }
+.text-summary-intro h2 { color: var(--white); }
+.text-summary-intro > p:last-child { margin: 22px 0 0; color: #d8e8f3; font-size: 1.05rem; }
+
+.outcome-table-wrap { min-width: 0; }
+.outcome-table { width: 100%; border-collapse: collapse; }
+.outcome-table th,
+.outcome-table td { padding: 14px 16px; text-align: left; vertical-align: top; }
+.outcome-table th {
+  color: #b9d5e9;
+  border-bottom: 1px solid rgb(185 213 233 / 0.45);
+  font-size: 0.75rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.outcome-table th:first-child,
+.outcome-table th:nth-child(2),
+.outcome-table td:first-child,
+.outcome-table td:nth-child(2) { width: 84px; text-align: center; font-weight: 900; }
+.outcome-table td { border-bottom: 1px solid rgb(185 213 233 / 0.22); color: #eaf2f8; }
+.outcome-table td:first-child,
+.outcome-table td:nth-child(2) { color: var(--white); }
+.outcome-table b { color: var(--white); }
+.summary-note { margin: 18px 16px 0; color: #b9d5e9; font-size: 0.92rem; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .downloads-section { background: var(--blue-soft); }
@@ -463,7 +512,8 @@ dd { margin: 3px 0 0; font-weight: 750; }
 
 @media (max-width: 900px) {
   .hero-grid,
-  .sources-grid { grid-template-columns: 1fr; gap: 48px; }
+  .sources-grid,
+  .text-summary-grid { grid-template-columns: 1fr; gap: 48px; }
   .download-grid { grid-template-columns: 1fr; }
   .download-card { min-height: 0; }
   .download-card dl { margin-top: 24px; }
@@ -487,10 +537,19 @@ dd { margin: 3px 0 0; font-weight: 750; }
   .quick-row strong { font-size: 3.25rem; }
   .quick-row b { font-size: 0.9rem; }
   .guide-section,
+  .text-summary-section,
   .downloads-section,
   .sources-section { padding: 66px 0; }
   .guide-preview { padding: 10px; }
   .guide-preview figcaption { padding: 14px 4px 4px; }
+  .text-summary-grid { gap: 34px; }
+  .outcome-table th,
+  .outcome-table td { padding: 12px 8px; }
+  .outcome-table th:first-child,
+  .outcome-table th:nth-child(2),
+  .outcome-table td:first-child,
+  .outcome-table td:nth-child(2) { width: 54px; }
+  .summary-note { margin-inline: 8px; }
   .source-actions { align-items: stretch; flex-direction: column; }
   .source-list { padding: 24px 22px; }
   .footer-inner { padding: 34px 0; align-items: start; flex-direction: column; }
